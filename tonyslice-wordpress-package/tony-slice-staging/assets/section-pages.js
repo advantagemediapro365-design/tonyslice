@@ -142,6 +142,17 @@ const pageContent = {
       ["Events & business", "Selected event coverage and local business features.", "https://www.youtube.com/channel/UCS8RfXorAFg6gI-NQs_cChA"]
     ]
   },
+  "/stories/": {
+    title: "Stories & Features | Tony Slice",
+    description: "Food, people and places from Tony Slice's published stories and features.",
+    eyebrow: "TONY SLICE STORIES",
+    headline: "Good stories.<br><span>Worth another look.</span>",
+    lead: "Food, people and places from Tony’s published work.",
+    body: "Browse the Tony Slice archive, with original article URLs retained on staging.",
+    cta: "Browse the stories",
+    href: "#stories",
+    layout: "stories"
+  },
   "/food/": {
     title: "Food & Restaurants | Tony Slice",
     description: "Watch Tony Slice restaurant visits, food clips and published restaurant features.",
@@ -271,6 +282,54 @@ function renderCards(cards) {
   return `<section class="network-section"><div class="network-heading"><p class="eyebrow eyebrow-dark">EXPLORE</p><h2>Make a plan<br><em>that fits.</em></h2></div><div class="network-grid">${cards.map(([title, description, href]) => `<article class="network-card"><span class="network-icon" aria-hidden="true">✦</span><h3>${escapeHtml(title)}</h3><p>${escapeHtml(description)}</p>${href ? pageLink(href, "Explore", "") : ""}</article>`).join("")}</div></section>`;
 }
 
+function stagingHomeUrl() {
+  return document.querySelector(".tony-slice-staging-page")?.dataset.homeUrl || "/";
+}
+
+function renderSiteHeader() {
+  const homeUrl = stagingHomeUrl();
+  return `
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <a class="wordmark" href="${escapeHtml(homeUrl)}" aria-label="Tony Slice home"><span class="wordmark-mark">TS</span><span>TONY <b>SLICE</b></span></a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open navigation"><span></span><span></span></button>
+      <nav class="primary-nav" id="primary-nav" aria-label="Main navigation">
+        <a href="/social-media/">Hire Tony</a><a href="/events/">Events</a><a href="/watch/">Watch</a><a href="/stories/">Stories</a><a href="/businesses/">Businesses</a><a href="${escapeHtml(homeUrl)}#profile">Actor &amp; Media Kit</a>
+      </nav>
+      <a class="button button-small nav-book" href="/book/">Book Tony</a>
+    </header>`;
+}
+
+function renderSiteFooter() {
+  const homeUrl = stagingHomeUrl();
+  return `
+    <footer class="site-footer section-dark">
+      <div class="footer-top">
+        <div><a class="wordmark wordmark-footer" href="${escapeHtml(homeUrl)}"><span class="wordmark-mark">TS</span><span>TONY <b>SLICE</b></span></a><p>Tony Slice is owned and operated by All Media Solutions.</p></div>
+        <div class="footer-links"><p class="eyebrow">EXPLORE</p><a href="/social-media/">Hire Tony</a><a href="/events/">Events</a><a href="/watch/">Watch</a><a href="/stories/">Stories</a><a href="/businesses/">Businesses</a><a href="/sitemap/">Sitemap</a></div>
+        <div class="footer-contact"><p class="eyebrow">NEW YORK &amp; HOLLYWOOD</p><a href="tel:570-494-7523">570-494-7523</a><a href="/contact/">Casting &amp; booking inquiries ↗</a></div>
+      </div>
+      <div class="footer-bottom"><span>Tony Slice is owned and operated by All Media Solutions. © 2026 All Media Solutions. All rights reserved.</span><a href="/sitemap/">Sitemap</a></div>
+    </footer>`;
+}
+
+function renderConsentBanner() {
+  return `<aside class="consent-banner" id="consent-banner" hidden aria-label="Analytics preferences">
+    <p>Optional analytics help measure booking interest. No tracking runs unless you choose to allow it.</p>
+    <div><button type="button" class="consent-accept" id="consent-accept">Allow analytics</button><button type="button" class="consent-reject" id="consent-reject">No thanks</button></div>
+  </aside>`;
+}
+
+function renderStories() {
+  const stories = Array.isArray(window.tonySliceStories) ? window.tonySliceStories : [];
+  return `<section class="story-archive section" id="stories">
+    <div class="story-grid">${stories.map((story) => `<article class="story-card">
+      <a class="story-card-image" href="${escapeHtml(story.url)}" aria-label="Read ${escapeHtml(story.title)}">${story.image ? `<img src="${escapeHtml(story.image)}" alt="" loading="lazy">` : '<span aria-hidden="true">TS</span>'}</a>
+      <div class="story-card-copy"><p class="story-card-date">${escapeHtml(story.date)}</p><h2><a href="${escapeHtml(story.url)}">${escapeHtml(story.title)}</a></h2><p>${escapeHtml(story.excerpt)}</p><a class="story-card-link" href="${escapeHtml(story.url)}">Read story <span aria-hidden="true">↗</span></a></div>
+    </article>`).join("")}</div>
+  </section>`;
+}
+
 function renderPage(page) {
   const descriptionMeta = document.querySelector('meta[name="description"]');
   const ogTitle = document.querySelector('meta[property="og:title"]');
@@ -282,15 +341,7 @@ function renderPage(page) {
 
   const root = document.querySelector("#page-root");
   root.innerHTML = `
-    <a class="skip-link" href="#main">Skip to content</a>
-    <header class="site-header">
-      <a class="wordmark" href="/" aria-label="Tony Slice home"><span class="wordmark-mark">TS</span><span>TONY <b>SLICE</b></span></a>
-      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open navigation"><span></span><span></span></button>
-      <nav class="primary-nav" id="primary-nav" aria-label="Main navigation">
-        <a href="/social-media/">Hire Tony</a><a href="/events/">Events</a><a href="/watch/">Watch</a><a href="/businesses/">Businesses</a><a href="/#profile">Actor &amp; Media Kit</a>
-      </nav>
-      <a class="button button-small nav-book" href="/book/">Book Tony</a>
-    </header>
+    ${renderSiteHeader()}
     <main id="main">
       <section class="section section-dark">
         <p class="eyebrow">${escapeHtml(page.eyebrow)}</p>
@@ -300,24 +351,43 @@ function renderPage(page) {
         ${page.note ? `<p class="service-page-note">${escapeHtml(page.note)}</p>` : ""}
         ${pageLink(page.href, page.cta, "button")}
       </section>
-      ${page.cards?.some((card) => card.length === 2) ? `<section class="section"><div class="section-heading"><p class="eyebrow eyebrow-dark">THE DETAILS</p><h2>Clear scope.<br><em>Good work.</em></h2></div><div class="service-grid">${page.cards.filter((card) => card.length === 2).map(([title, description], index) => `<article class="service-card service-card-${["lime", "peach", "blue"][index % 3]}"><span class="service-index">TONY SLICE</span><h3>${escapeHtml(title)}</h3><p>${escapeHtml(description)}</p></article>`).join("")}</div></section>` : ""}
+      ${page.layout === "stories" ? renderStories() : page.cards?.some((card) => card.length === 2) ? `<section class="section"><div class="section-heading"><p class="eyebrow eyebrow-dark">THE DETAILS</p><h2>Clear scope.<br><em>Good work.</em></h2></div><div class="service-grid">${page.cards.filter((card) => card.length === 2).map(([title, description], index) => `<article class="service-card service-card-${["lime", "peach", "blue"][index % 3]}"><span class="service-index">TONY SLICE</span><h3>${escapeHtml(title)}</h3><p>${escapeHtml(description)}</p></article>`).join("")}</div></section>` : ""}
       ${renderCards(page.cards?.filter((card) => card.length > 2) || [])}
       <section class="event-strip"><div><p class="eyebrow">LET’S TALK</p><h2>Have a project<br>in mind?</h2><p>Send the details and the team will follow up. Your date is confirmed only after written agreement.</p></div>${pageLink("/book/", "Start a Booking Inquiry", "button")}</section>
     </main>
-    <footer class="site-footer section-dark">
-      <div class="footer-top">
-        <div><a class="wordmark wordmark-footer" href="/"><span class="wordmark-mark">TS</span><span>TONY <b>SLICE</b></span></a><p>Tony Slice is owned and operated by All Media Solutions.</p></div>
-        <div class="footer-links"><p class="eyebrow">EXPLORE</p><a href="/social-media/">Hire Tony</a><a href="/events/">Events</a><a href="/watch/">Watch</a><a href="/businesses/">Businesses</a><a href="/sitemap/">Sitemap</a></div>
-        <div class="footer-contact"><p class="eyebrow">NEW YORK &amp; HOLLYWOOD</p><a href="tel:570-494-7523">570-494-7523</a><a href="/contact/">Casting &amp; booking inquiries ↗</a></div>
-      </div>
-      <div class="footer-bottom"><span>Tony Slice is owned and operated by All Media Solutions. © 2026 All Media Solutions. All rights reserved.</span><a href="/sitemap/">Sitemap</a></div>
-    </footer>
-    <aside class="consent-banner" id="consent-banner" hidden aria-label="Analytics preferences">
-      <p>Optional analytics help measure booking interest. No tracking runs unless you choose to allow it.</p>
-      <div><button type="button" class="consent-accept" id="consent-accept">Allow analytics</button><button type="button" class="consent-reject" id="consent-reject">No thanks</button></div>
-    </aside>`;
+    ${renderSiteFooter()}
+    ${renderConsentBanner()}`;
+}
+
+function renderStory(post) {
+  const descriptionMeta = document.querySelector('meta[name="description"]');
+  const ogTitle = document.querySelector('meta[property="og:title"]');
+  document.title = `${post.title} | Tony Slice`;
+  if (descriptionMeta) descriptionMeta.content = post.title;
+  if (ogTitle) ogTitle.content = document.title;
+
+  const root = document.querySelector("#page-root");
+  root.innerHTML = `
+    ${renderSiteHeader()}
+    <main id="main" class="story-page">
+      <section class="story-hero section-dark">
+        <div class="story-hero-copy">
+          <a class="story-back" href="/stories/">← All stories</a>
+          <p class="eyebrow">TONY SLICE STORIES</p>
+          <h1>${escapeHtml(post.title)}</h1>
+          <p class="story-date">${escapeHtml(post.date)}</p>
+        </div>
+        ${post.image ? `<figure class="story-featured"><img src="${escapeHtml(post.image)}" alt="${escapeHtml(post.title)}"></figure>` : ""}
+      </section>
+      <article class="story-content"><div class="story-content-copy">${post.content}</div>
+        <div class="story-end"><a class="button" href="/stories/">Explore more stories <span aria-hidden="true">↗</span></a></div>
+      </article>
+    </main>
+    ${renderSiteFooter()}
+    ${renderConsentBanner()}`;
 }
 
 const route = `${window.location.pathname.replace(/\/+$/, "") || ""}/`;
 const page = pageContent[route === "/contact-us/" ? "/contact/" : route];
-if (page) renderPage(page);
+if (window.tonySlicePost) renderStory(window.tonySlicePost);
+else if (page) renderPage(page);

@@ -41,6 +41,7 @@ The package also retains the earlier standalone page shortcodes for compatibilit
 
 The homepage preview is available at /tony-slice-preview/. The plugin rewrites internal home links to that staging page; other internal links use the routes above.
 On the current staging site, /contact/ redirects to /contact-us/; the plugin supports both paths.
+To copy the live site's published posts and add a themed Stories archive on staging, activate the plugin update, then open Tools → Tony Slice Stories and select “Copy posts to staging.” Post slugs are preserved, and copied post content links are redirected to staging.
 
 BOOKING
 The booking form uses the tested Formspree endpoint https://formspree.io/f/xoejrbkl. A success message and booking_form_success event occur only after the endpoint returns a successful response. Test with a clearly marked test inquiry and confirm its receipt in the agreed inbox.

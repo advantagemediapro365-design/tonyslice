@@ -82,6 +82,40 @@ h1, h2, h3 { font-family: "Space Grotesk", "DM Sans", sans-serif; }
 .service-page-lede { max-width: 730px; margin: 0 0 20px; color: var(--lime); font: 600 clamp(22px, 3vw, 34px)/1.15 "Space Grotesk", sans-serif; letter-spacing: -.04em; }
 .service-page-body { max-width: 720px; margin-bottom: 13px; color: #d0cdc4; font-size: 16px; }
 .service-page-note { max-width: 720px; margin-bottom: 30px; color: #aaa79f; font-size: 12px; }
+.story-hero { padding: clamp(70px, 9vw, 120px) max(24px, calc((100vw - var(--max)) / 2)); }
+.story-hero-copy { max-width: 1000px; margin: 0 auto; }
+.story-back { display: inline-block; margin-bottom: 38px; color: var(--lime); font-size: 13px; font-weight: 700; text-decoration: none; }
+.story-back:hover { text-decoration: underline; text-underline-offset: 4px; }
+.story-hero h1 { max-width: 1000px; margin: 0 0 22px; color: var(--cream); font-size: clamp(48px, 8vw, 104px); letter-spacing: -.075em; line-height: .96; }
+.story-date, .story-card-date { color: #aaa79f; font-size: 12px; letter-spacing: .04em; }
+.story-featured { max-width: 1000px; max-height: 600px; margin: 46px auto 0; border-radius: 22px; background: #292926; overflow: hidden; }
+.story-featured img { width: 100%; max-height: 600px; object-fit: cover; }
+.story-content { padding: clamp(48px, 8vw, 100px) 24px; background: var(--cream); }
+.story-content-copy { max-width: 790px; margin: 0 auto; color: #292923; font-size: 17px; line-height: 1.8; }
+.story-content-copy > * { max-width: 100%; }
+.story-content-copy h2, .story-content-copy h3, .story-content-copy h4 { margin: 1.7em auto .6em; color: var(--ink); letter-spacing: -.045em; line-height: 1.12; }
+.story-content-copy h2 { font-size: clamp(30px, 4vw, 44px); }
+.story-content-copy h3 { font-size: clamp(24px, 3vw, 32px); }
+.story-content-copy p, .story-content-copy ul, .story-content-copy ol, .story-content-copy blockquote { margin: 0 auto 1.3em; }
+.story-content-copy a { color: #4e5c0c; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.story-content-copy img, .story-content-copy figure { height: auto; margin: 30px auto; border-radius: 14px; }
+.story-content-copy figcaption { margin-top: 8px; color: #64635d; font-size: 12px; text-align: center; }
+.story-content-copy blockquote { padding: 18px 24px; border-left: 4px solid var(--peach); background: var(--cream-dark); }
+.story-content-copy .ez-toc-container { margin: 0 auto 36px; padding: 22px 26px; border: 1px solid var(--line); border-radius: 14px; background: var(--cream-dark); }
+.story-end { max-width: 790px; margin: 55px auto 0; padding-top: 30px; border-top: 1px solid var(--line); }
+.story-archive { background: var(--cream); }
+.story-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.story-card { display: flex; min-width: 0; flex-direction: column; border: 1px solid var(--line); border-radius: 18px; background: #fffefa; overflow: hidden; }
+.story-card-image { display: grid; min-height: 190px; aspect-ratio: 16 / 10; place-items: center; color: var(--lime); background: var(--ink); font: 700 40px "Space Grotesk", sans-serif; text-decoration: none; }
+.story-card-image img { width: 100%; height: 100%; object-fit: cover; transition: transform .3s ease; }
+.story-card-image:hover img { transform: scale(1.035); }
+.story-card-copy { display: flex; flex: 1; flex-direction: column; align-items: flex-start; padding: 22px; }
+.story-card-copy .story-card-date { margin-bottom: 10px; color: #65635c; font-size: 10px; }
+.story-card-copy h2 { margin: 0 0 12px; font-size: clamp(21px, 2vw, 27px); letter-spacing: -.05em; line-height: 1.08; }
+.story-card-copy h2 a { text-decoration: none; }
+.story-card-copy > p:not(.story-card-date) { margin-bottom: 20px; color: #585751; font-size: 13px; line-height: 1.55; }
+.story-card-link { display: inline-flex; gap: 8px; margin-top: auto; color: #4e5c0c; font-size: 12px; font-weight: 700; text-decoration: none; }
+.story-card-link:hover { text-decoration: underline; text-underline-offset: 4px; }
 .section-heading > p:last-child { max-width: 545px; margin: 0; color: #65635c; font-size: 15px; }
 .service-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
 .service-card { display: flex; min-height: 415px; flex-direction: column; align-items: flex-start; padding: clamp(25px, 3vw, 40px); border-radius: 22px; }
@@ -169,6 +203,7 @@ h1, h2, h3 { font-family: "Space Grotesk", "DM Sans", sans-serif; }
   .hero-visual { min-height: 420px; }
   .video-groups { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 30px 22px; }
   .service-grid { gap: 12px; }
+  .story-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .service-card { padding: 25px 20px; }
   .booking-section { grid-template-columns: .65fr 1.35fr; gap: 34px; }
 }
@@ -207,6 +242,15 @@ h1, h2, h3 { font-family: "Space Grotesk", "DM Sans", sans-serif; }
   .round-link { grid-column: 2; grid-row: 1; width: 45px; height: 45px; }
   .section { padding: 72px 20px; }
   .section-heading { margin-bottom: 34px; }
+  .story-hero { padding: 58px 20px 50px; }
+  .story-back { margin-bottom: 28px; }
+  .story-featured { margin-top: 30px; border-radius: 14px; }
+  .story-content { padding: 48px 20px 68px; }
+  .story-content-copy { font-size: 16px; line-height: 1.75; }
+  .story-grid { grid-template-columns: 1fr; gap: 16px; }
+  .story-card-image { min-height: 0; }
+  .story-card-copy { padding: 20px; }
+  .story-card-copy h2 { font-size: 25px; }
   .section-heading h2, .booking-copy h2 { font-size: clamp(43px, 14vw, 62px); }
   .section-heading > p:last-child { font-size: 14px; }
   .service-grid { grid-template-columns: 1fr; gap: 13px; }
